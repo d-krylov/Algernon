@@ -1,8 +1,8 @@
 #ifndef ALGERNON_POLYHEDRON_H
 #define ALGERNON_POLYHEDRON_H
 
-#include "face.h"
-#include "algernon/mathematics/include/mathematics_types.h"
+#include "algernon/mesh/include/face.h"
+#include "polygon.h"
 
 namespace Algernon {
 
@@ -19,6 +19,11 @@ public:
   std::size_t GetNumberOfVertices() const;
   std::size_t GetNumberOfFaces() const;
   std::size_t GetNumberOfEdges() const;
+
+  Polygon GetFacePolygon(uint32_t face_index) const;
+
+  Vector3f GetFaceCentroid(uint32_t face_index) const;
+  Vector3f GetFaceNormal(uint32_t face_index) const;
 
   static Polyhedron MakeHexahedron();
   static Polyhedron MakeIcosahedron();

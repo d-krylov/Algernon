@@ -1,4 +1,4 @@
-#include "algernon/mesh/include/sphere.h"
+#include "algernon/mesh/shapes/include/sphere.h"
 
 namespace Algernon {
 

@@ -15,8 +15,11 @@ struct GeometryStatistics {
 };
 
 class Geometry {
-private:
+public:
+  //
   struct halfedge_t {
+    bool operator==(const halfedge_t &) const = default;
+
     IndexType vertex_{INVALID_INDEX}; // start vertex of a half-edge
     IndexType face_{INVALID_INDEX};   // incident face of a half-edge
     IndexType next_{INVALID_INDEX};   // the next half-edge on the face in counter-clockwise order
@@ -30,6 +33,9 @@ public:
   bool UsesImplicitTwin() const;
 
   std::span<const halfedge_t> GetHalfedges() const;
+  std::span<const IndexType> GetFaceIndices() const;
+  std::span<const IndexType> GetEdgeIndices() const;
+  std::span<const IndexType> GetVertexIndices() const;
 
 protected:
   void Allocate(std::span<const Face> faces);

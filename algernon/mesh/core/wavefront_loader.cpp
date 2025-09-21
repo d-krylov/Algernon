@@ -30,7 +30,7 @@ std::vector<Face> GetMeshFaces(const tinyobj::ObjReader &reader) {
   return out;
 }
 
-void Mesh::Load(const std::filesystem::path &path) {
+void Mesh::LoadWavefront(const std::filesystem::path &path) {
   tinyobj::ObjReader reader;
   tinyobj::ObjReaderConfig reader_config;
 

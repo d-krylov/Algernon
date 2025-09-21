@@ -7,16 +7,26 @@
 
 namespace Algernon {
 
+class Face;
+
 class Polygon {
 public:
   Polygon(std::span<const Vector3f> points);
+  Polygon(std::span<const Vector3f> points, const Face &face);
 
-  std::size_t GetSize() const;
+  std::size_t size() const;
 
   bool IsConvex() const;
 
   Vector3f GetU() const;
   Vector3f GetV() const;
+
+  Vector3f GetCentroid() const;
+
+  std::vector<Vector3f>::iterator begin();
+  std::vector<Vector3f>::const_iterator begin() const;
+  std::vector<Vector3f>::iterator end();
+  std::vector<Vector3f>::const_iterator end() const;
 
 private:
   std::vector<Vector3f> vertices_;

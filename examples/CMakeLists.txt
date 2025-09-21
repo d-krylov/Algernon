@@ -1,5 +1,6 @@
 set(EXECUTABLES
   shapes
+  marching_cubes
 )
 
 FetchContent_MakeAvailable(

@@ -14,9 +14,8 @@ include(cmake/clang_format.cmake)
 FetchContent_MakeAvailable(
   glm
   tinyobjloader
+  fastgltf
 )
-
-set(CMAKE_EXPERIMENTAL_CXX_MODULE_CMAKE_API 1)
 
 add_subdirectory(algernon)
 

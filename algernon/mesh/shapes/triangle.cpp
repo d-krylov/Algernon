@@ -1,4 +1,4 @@
-#include "algernon/mesh/include/triangle.h"
+#include "algernon/mesh/shapes/include/triangle.h"
 
 namespace Algernon {
 

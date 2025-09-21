@@ -1,4 +1,5 @@
-#include "algernon/mesh/include/polyhedron.h"
+#include "algernon/mesh/shapes/include/polyhedron.h"
+#include "algernon/mathematics/include/bounding_box.h"
 #include "algernon/mesh/include/mesh_tools.h"
 #include <algorithm>
 
@@ -29,6 +30,9 @@ std::span<const Face> Polyhedron::GetFaces() const {
 }
 
 Polyhedron Polyhedron::MakeHexahedron() {
+  Vector3f min(-1.0f, -1.0f, -1.0f);
+  Vector3f max(+1.0f, +1.0f, +1.0f);
+  return BoundingBox(min, max).GetPolyhedron();
 }
 
 Polyhedron Polyhedron::MakeIcosahedron() {
@@ -115,7 +119,7 @@ Polyhedron Polyhedron::MakeTetrahedron() {
   std::vector<Face> faces{
     {0, 1, 2}, //
     {1, 3, 2}, //
-    {0, 2, 3}, //
+    {3, 0, 2}, //
     {0, 3, 1}  //
   };
 
@@ -174,6 +178,23 @@ int32_t Polyhedron::GetEulerСharacteristic() const {
   int32_t f = GetNumberOfFaces();
   int32_t e = GetNumberOfEdges();
   return v + f - e;
+}
+
+Polygon Polyhedron::GetFacePolygon(uint32_t face_index) const {
+  return Polygon(GetVertices(), faces_[face_index]);
+}
+
+Vector3f Polyhedron::GetFaceCentroid(uint32_t face_index) const {
+  Vector3f centroid(0.0f);
+  const auto &face = faces_[face_index];
+  auto number_vertices = static_cast<float>(face.size());
+  for (const auto &vertex_index : face) {
+    centroid += vertices_[vertex_index];
+  }
+  return centroid / number_vertices;
+}
+
+Vector3f Polyhedron::GetFaceNormal(uint32_t face_index) const {
 }
 
 } // namespace Algernon

@@ -6,7 +6,7 @@
 
 namespace Algernon {
 
-void CORE_ASSERT(bool status, std::string_view message, std::source_location location);
+void CORE_ASSERT(bool status, std::string_view message, std::source_location location = std::source_location::current());
 
 } // namespace Algernon
 

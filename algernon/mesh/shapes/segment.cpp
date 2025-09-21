@@ -1,4 +1,4 @@
-#include "algernon/mesh/include/segment.h"
+#include "algernon/mesh/shapes/include/segment.h"
 
 namespace Algernon {
 

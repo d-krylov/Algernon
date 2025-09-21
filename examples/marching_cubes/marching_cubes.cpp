@@ -1,9 +1,6 @@
 #include "algernon/common/algernon.h"
 #include "polyscope/polyscope.h"
 #include "polyscope/surface_mesh.h"
-#include <print>
-#include <chrono>
-#include <cassert>
 
 using namespace Algernon;
 
@@ -12,12 +9,14 @@ int main() {
   polyscope::init();
 
   auto sdf = [&](Vector3f p) {
-    p = OperationTwist(p, 0.5f);
-    auto s1 = SDBox(p, 1.0f, 1.0f, 1.0f);
-    return s1;
+    auto s1 = SDBoxFrame(p - Vector3f(0.0f, 1.0f, 0.0f), 0.5f, 0.5f, 0.5f, 0.1f);
+    auto s2 = SDRoundBox(p - Vector3f(0.0f, 0.0f, 0.0f), 0.5f, 0.5f, 0.5f, 0.1f);
+    auto s3 = SDVerticalCapsule(p - Vector3f(0.0f, 1.0f, 0.0f), 1.0f, 0.5f);
+    auto s4 = SDTorus(p - Vector3f(0.0f, 2.0f, 0.0f), 1.0f, 0.2f);
+    auto s5 = SDRoundedCylinder(p, 0.3f, 0.1f, 0.5f);
+    return OperationUnion(std::array{s3, s4, s5});
   };
 
-#if 0
   auto vertices = TriangulateGrid(sdf, Vector3f(-3.0f), Vector3f(3.0f), Vector3f(300), 0.001f);
 
   std::vector<std::vector<uint32_t>> indices;
@@ -28,16 +27,8 @@ int main() {
     t.emplace_back(i + 1);
     t.emplace_back(i + 2);
   }
-#endif
 
-  auto mesh = Polyhedron::MakeHexahedron();
-
-  auto kis = OperatorKIS(mesh);
-  auto kis1 = OperatorKIS(kis);
-
-  auto polyscope_mesh = polyscope::registerSurfaceMesh("my mesh", kis1.GetVertices(), kis1.GetFaces());
-
-  // polyscope_mesh->addVertexColorQuantity("vertex colors", mesh.GetColors());
+  auto polyscope_mesh = polyscope::registerSurfaceMesh("my mesh", vertices, indices);
 
   polyscope::show();
 

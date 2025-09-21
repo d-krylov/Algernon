@@ -7,6 +7,12 @@ FetchContent_Declare(
 )
 
 FetchContent_Declare(
+	fastgltf
+	GIT_REPOSITORY https://github.com/spnda/fastgltf
+	GIT_TAG v0.9.0
+)
+
+FetchContent_Declare(
 	polyscope
 	GIT_REPOSITORY https://github.com/nmwsharp/polyscope
 	GIT_TAG v2.3.0

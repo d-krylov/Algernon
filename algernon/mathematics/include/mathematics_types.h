@@ -19,6 +19,7 @@ using Vector4u = glm::uvec4;
 using Vector2d = glm::dvec2;
 using Vector3d = glm::dvec3;
 using Vector4d = glm::dvec4;
+using Matrix2f = glm::mat2x2;
 using Matrix3f = glm::mat3x3;
 using Matrix4f = glm::mat4x4;
 using Quaternion = glm::quat;

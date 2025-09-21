@@ -1,15 +1,11 @@
 set(ALGERNON_SOURCE_DIR ${PROJECT_SOURCE_DIR}/algernon)
 
-set(ALGERNON_SOURCES
-  ${ALGERNON_SOURCE_DIR}/core/core.cpp
-  ${ALGERNON_SOURCE_DIR}/core/core_types.cpp
-  ${ALGERNON_SOURCE_DIR}/geometry/geometry_element.cpp
-  ${ALGERNON_SOURCE_DIR}/geometry/geometry.cpp
-  ${ALGERNON_SOURCE_DIR}/algorithms/marching_cubes/marching_cubes.cpp
-  ${ALGERNON_SOURCE_DIR}/algorithms/marching_cubes/marching_cubes_tables.cpp
+set(ALGERNON_MESH_SOURCES
+  ${ALGERNON_SOURCE_DIR}/mesh/SDF/SDF.cpp
   ${ALGERNON_SOURCE_DIR}/mesh/core/face.cpp
   ${ALGERNON_SOURCE_DIR}/mesh/core/mesh.cpp
-  ${ALGERNON_SOURCE_DIR}/mesh/core/mesh_loader.cpp
+  ${ALGERNON_SOURCE_DIR}/mesh/core/wavefront_loader.cpp
+  ${ALGERNON_SOURCE_DIR}/mesh/core/khronos_loader.cpp
   ${ALGERNON_SOURCE_DIR}/mesh/core/mesh_tools.cpp
   ${ALGERNON_SOURCE_DIR}/mesh/shapes/sphere.cpp
   ${ALGERNON_SOURCE_DIR}/mesh/shapes/plane.cpp
@@ -17,6 +13,21 @@ set(ALGERNON_SOURCES
   ${ALGERNON_SOURCE_DIR}/mesh/shapes/polygon.cpp
   ${ALGERNON_SOURCE_DIR}/mesh/shapes/triangle.cpp
   ${ALGERNON_SOURCE_DIR}/mesh/shapes/segment.cpp
+)
+
+set(ALGERNON_ALGORITHMS_SOURCES
+  ${ALGERNON_SOURCE_DIR}/algorithms/conway/conway.cpp
+  ${ALGERNON_SOURCE_DIR}/algorithms/marching_cubes/marching_cubes.cpp
+  ${ALGERNON_SOURCE_DIR}/algorithms/marching_cubes/marching_cubes_tables.cpp
+)
+
+set(ALGERNON_SOURCES
+  ${ALGERNON_MESH_SOURCES}
+  ${ALGERNON_ALGORITHMS_SOURCES}
+  ${ALGERNON_SOURCE_DIR}/core/core.cpp
+  ${ALGERNON_SOURCE_DIR}/core/core_types.cpp
+  ${ALGERNON_SOURCE_DIR}/geometry/geometry_element.cpp
+  ${ALGERNON_SOURCE_DIR}/geometry/geometry.cpp
   ${ALGERNON_SOURCE_DIR}/mathematics/bounding_box.cpp
 )
 
@@ -33,6 +44,7 @@ target_include_directories(${PROJECT_NAME} PUBLIC
 target_link_libraries(${PROJECT_NAME} PUBLIC
   glm::glm
   tinyobjloader
+  fastgltf
 )
 
 target_compile_definitions(${PROJECT_NAME} PUBLIC

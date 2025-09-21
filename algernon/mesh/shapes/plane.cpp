@@ -1,4 +1,4 @@
-#include "algernon/mesh/include/plane.h"
+#include "algernon/mesh/shapes/include/plane.h"
 
 namespace Algernon {
 

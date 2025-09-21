@@ -26,7 +26,8 @@ public:
   int32_t GetEulerСharacteristic() const;
 
 protected:
-  void Load(const std::filesystem::path &path);
+  void LoadWavefront(const std::filesystem::path &path);
+  void LoadGLTF(const std::filesystem::path &path);
 
 private:
   std::vector<Vector3f> vertices_;
