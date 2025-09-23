@@ -1,7 +1,7 @@
 #ifndef ALGERNON_POLYHEDRON_H
 #define ALGERNON_POLYHEDRON_H
 
-#include "algernon/mesh/include/face.h"
+#include "algernon/mesh/include/face_indices.h"
 #include "polygon.h"
 
 namespace Algernon {
@@ -9,10 +9,10 @@ namespace Algernon {
 // Polyhedron is closed surface composed of polygons
 class Polyhedron {
 public:
-  Polyhedron(std::span<const Vector3f> vertices, std::span<const Face> faces);
+  Polyhedron(std::span<const Vector3f> vertices, std::span<const FaceIndices> faces);
 
   std::span<const Vector3f> GetVertices() const;
-  std::span<const Face> GetFaces() const;
+  std::span<const FaceIndices> GetFaces() const;
 
   int32_t GetEulerСharacteristic() const;
 
@@ -32,7 +32,7 @@ public:
   static Polyhedron MakeDodecahedron();
 
 private:
-  std::vector<Face> faces_;
+  std::vector<FaceIndices> faces_;
   std::vector<Vector3f> vertices_;
 };
 

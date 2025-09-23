@@ -11,7 +11,7 @@ std::span<const Vector3f> Mesh::GetVertices() const {
   return vertices_;
 }
 
-std::span<const Face> Mesh::GetFaces() const {
+std::span<const FaceIndices> Mesh::GetFaces() const {
   return faces_;
 }
 

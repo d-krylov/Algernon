@@ -2,7 +2,7 @@
 #define ALGERNON_SPHERE_H
 
 #include "algernon/mathematics/include/mathematics_types.h"
-#include "algernon/mesh/include/face.h"
+#include "algernon/mesh/include/face_indices.h"
 #include <vector>
 
 namespace Algernon {
@@ -17,7 +17,7 @@ public:
 
   std::vector<Vector3f> GetVertices(uint32_t y_sectors, uint32_t xz_sectors) const;
 
-  std::vector<Face> GetFaces(int32_t y_sectors, int32_t xz_sectors) const;
+  std::vector<FaceIndices> GetFaces(int32_t y_sectors, int32_t xz_sectors) const;
 
 private:
   Vector3f origin_;

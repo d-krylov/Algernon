@@ -16,8 +16,8 @@ std::vector<Vector3f> GetMeshVertices(const tinyobj::ObjReader &reader) {
   return out;
 }
 
-std::vector<Face> GetMeshFaces(const tinyobj::ObjReader &reader) {
-  std::vector<Face> out;
+std::vector<FaceIndices> GetMeshFaces(const tinyobj::ObjReader &reader) {
+  std::vector<FaceIndices> out;
   const auto &shapes = reader.GetShapes();
   for (const auto &shape : shapes) {
     for (auto i = 0; i < shape.mesh.indices.size(); i += 3) {

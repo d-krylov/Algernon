@@ -7,12 +7,12 @@
 
 namespace Algernon {
 
-class Face;
+class FaceIndices;
 
 class Polygon {
 public:
   Polygon(std::span<const Vector3f> points);
-  Polygon(std::span<const Vector3f> points, const Face &face);
+  Polygon(std::span<const Vector3f> points, const FaceIndices &face);
 
   std::size_t size() const;
 

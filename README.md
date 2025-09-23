@@ -6,6 +6,8 @@
 ## To Do
 
 1. Support own viewer
+2. Editing a mesh
+3. Laplacian smoothing
 
 ## Sources
 

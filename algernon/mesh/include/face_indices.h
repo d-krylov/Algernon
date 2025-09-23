@@ -1,5 +1,5 @@
-#ifndef ALGERNON_FACE_H
-#define ALGERNON_FACE_H
+#ifndef ALGERNON_FACE_INDICES_H
+#define ALGERNON_FACE_INDICES_H
 
 #include "algernon/core/include/core_types.h"
 #include <vector>
@@ -9,13 +9,13 @@
 
 namespace Algernon {
 
-class Face {
+class FaceIndices {
 public:
-  Face(std::span<const IndexType> indices);
+  FaceIndices(std::span<const IndexType> indices);
 
-  Face(std::initializer_list<IndexType> indices);
+  FaceIndices(std::initializer_list<IndexType> indices);
 
-  Face(IndexType i0, IndexType i1, IndexType i2);
+  FaceIndices(IndexType i0, IndexType i1, IndexType i2);
 
   auto size() const;
 
@@ -37,7 +37,7 @@ public:
 
   Index3 GetTriangle(IndexType index) const;
 
-  Face GetTriangleFace(IndexType index) const;
+  FaceIndices GetTriangleFace(IndexType index) const;
 
 private:
   std::vector<IndexType> indices_;
@@ -45,6 +45,6 @@ private:
 
 } // namespace Algernon
 
-#include "face.ipp"
+#include "face_indices.ipp"
 
-#endif // ALGERNON_FACE_H
+#endif // ALGERNON_FACE_INDICES_H

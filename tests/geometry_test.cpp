@@ -4,7 +4,7 @@
 
 using namespace Algernon;
 
-TEST(GeometryTest, TetrahedronGeometry) {
+TEST(GeometryTest, TetrahedronGeometryExplicit) {
   auto tetrahedron = Polyhedron::MakeTetrahedron();
 
   Geometry geometry(tetrahedron.GetFaces());
@@ -21,11 +21,11 @@ TEST(GeometryTest, TetrahedronGeometry) {
   ASSERT_EQ(halfedges[3], Geometry::halfedge_t(1, 1, 4, 3, 10));
   ASSERT_EQ(halfedges[4], Geometry::halfedge_t(3, 1, 5, 4, 8));
   ASSERT_EQ(halfedges[5], Geometry::halfedge_t(2, 1, 3, 1, 1));
-  
+
   ASSERT_EQ(halfedges[6], Geometry::halfedge_t(3, 2, 7, 5, 9));
   ASSERT_EQ(halfedges[7], Geometry::halfedge_t(0, 2, 8, 2, 2));
   ASSERT_EQ(halfedges[8], Geometry::halfedge_t(2, 2, 6, 4, 4));
-  
+
   ASSERT_EQ(halfedges[9], Geometry::halfedge_t(0, 3, 10, 5, 6));
   ASSERT_EQ(halfedges[10], Geometry::halfedge_t(3, 3, 11, 3, 3));
   ASSERT_EQ(halfedges[11], Geometry::halfedge_t(1, 3, 9, 0, 0));
@@ -48,7 +48,7 @@ TEST(GeometryTest, TetrahedronGeometry) {
   ASSERT_EQ(halfedges[edges[5]].edge_, 5);
 }
 
-TEST(GeometryTest, HexahedronGeometry) {
+TEST(GeometryTest, HexahedronGeometryExplicit) {
   auto hexahedron = Polyhedron::MakeHexahedron();
 
   Geometry geometry(hexahedron.GetFaces());
@@ -57,6 +57,12 @@ TEST(GeometryTest, HexahedronGeometry) {
   auto vertices = geometry.GetVertexIndices();
   auto edges = geometry.GetEdgeIndices();
   auto faces = geometry.GetFaceIndices();
+
+  Vertex v(&geometry, 1);
+
+  for (auto adj : v.GetAdjacentFaces()) {
+    std::println("{}", adj.GetIndex());
+  }
 
   ASSERT_EQ(halfedges[0], Geometry::halfedge_t(0, 0, 1, 0, 22));
   ASSERT_EQ(halfedges[1], Geometry::halfedge_t(1, 0, 2, 1, 7));

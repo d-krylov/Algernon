@@ -26,8 +26,8 @@ std::vector<Vector3f> Sphere::GetVertices(uint32_t y_sectors, uint32_t xz_sector
   return out;
 }
 
-std::vector<Face> Sphere::GetFaces(int32_t y_sectors, int32_t xz_sectors) const {
-  std::vector<Face> out;
+std::vector<FaceIndices> Sphere::GetFaces(int32_t y_sectors, int32_t xz_sectors) const {
+  std::vector<FaceIndices> out;
 
   for (auto y_sector = 0; y_sector < y_sectors; y_sector++) {
 

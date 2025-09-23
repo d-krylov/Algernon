@@ -5,7 +5,7 @@
 
 namespace Algernon {
 
-Polyhedron::Polyhedron(std::span<const Vector3f> vertices, std::span<const Face> faces)
+Polyhedron::Polyhedron(std::span<const Vector3f> vertices, std::span<const FaceIndices> faces)
   : vertices_(vertices.begin(), vertices.end()), faces_(faces.begin(), faces.end()) {
 }
 
@@ -25,7 +25,7 @@ std::span<const Vector3f> Polyhedron::GetVertices() const {
   return vertices_;
 }
 
-std::span<const Face> Polyhedron::GetFaces() const {
+std::span<const FaceIndices> Polyhedron::GetFaces() const {
   return faces_;
 }
 
@@ -54,7 +54,7 @@ Polyhedron Polyhedron::MakeIcosahedron() {
     {+a, +0, -b}  //
   };
 
-  std::vector<Face> faces{
+  std::vector<FaceIndices> faces{
     {0, 1, 2},   //
     {3, 2, 1},   //
     {3, 4, 5},   //
@@ -93,7 +93,7 @@ Polyhedron Polyhedron::MakeOctahedron() {
     {+0, -b, +0}  // DOWN
   };
 
-  std::vector<Face> faces{
+  std::vector<FaceIndices> faces{
     {0, 1, 4}, // UP FRONT
     {1, 2, 4}, // UP RIGHT
     {2, 3, 4}, // UP BACK
@@ -116,7 +116,7 @@ Polyhedron Polyhedron::MakeTetrahedron() {
     {-1, -1, +1}  //
   };
 
-  std::vector<Face> faces{
+  std::vector<FaceIndices> faces{
     {0, 1, 2}, //
     {1, 3, 2}, //
     {3, 0, 2}, //
@@ -153,7 +153,7 @@ Polyhedron Polyhedron::MakeDodecahedron() {
     {+1, -c, +0}  //
   };
 
-  std::vector<Face> faces{
+  std::vector<FaceIndices> faces{
     {0, 1, 2, 3, 4},      //
     {1, 0, 5, 6, 7},      //
     {11, 10, 12, 8, 9},   //

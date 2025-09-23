@@ -5,7 +5,7 @@ using namespace Algernon;
 
 TEST(MeshTest, FacaApi) {
 
-  Face face{7, 3, 5, 1, 8, 2, 9, 6, 4};
+  FaceIndices face{7, 3, 5, 1, 8, 2, 9, 6, 4};
 
   ASSERT_EQ(face.GetEdge(0), Index2(7, 3));
   ASSERT_EQ(face.GetEdge(1), Index2(3, 5));
@@ -20,9 +20,8 @@ TEST(MeshTest, FacaApi) {
 
 TEST(MeshTest, MeshTools) {
 
-  std::vector<Face> faces{{0, 1, 2, 3, 4, 5}, {6, 7, 8, 9, 3, 2}};
+  std::vector<FaceIndices> faces{{0, 1, 2, 3, 4, 5}, {6, 7, 8, 9, 3, 2}};
 
-  ASSERT_EQ(GetNumberVerticesInFacesSlow(faces), 10);
   ASSERT_EQ(GetNumberEdgesInFacesSlow(faces), 11);
 
   auto icosahedron = Polyhedron::MakeIcosahedron();

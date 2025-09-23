@@ -18,7 +18,7 @@ Polyhedron BoundingBox::GetPolyhedron() const {
     {min_.x, max_.y, min_.z}, //
   };
 
-  std::vector<Face> faces{
+  std::vector<FaceIndices> faces{
     {0, 1, 2, 3}, // FRONT
     {1, 5, 6, 2}, // RIGHT
     {5, 4, 7, 6}, // BACK

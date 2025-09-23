@@ -3,7 +3,7 @@
 
 #include <filesystem>
 #include "algernon/mathematics/include/mathematics_types.h"
-#include "face.h"
+#include "face_indices.h"
 
 namespace Algernon {
 
@@ -15,7 +15,7 @@ public:
 
   std::span<const Vector3f> GetVertices() const;
   std::span<const Vector3f> GetColors() const;
-  std::span<const Face> GetFaces() const;
+  std::span<const FaceIndices> GetFaces() const;
 
   std::size_t GetNumberOfVertices() const;
   std::size_t GetNumberOfFaces() const;
@@ -32,7 +32,7 @@ protected:
 private:
   std::vector<Vector3f> vertices_;
   std::vector<Vector3f> colors_;
-  std::vector<Face> faces_;
+  std::vector<FaceIndices> faces_;
 };
 
 } // namespace Algernon

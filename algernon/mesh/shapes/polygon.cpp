@@ -1,5 +1,5 @@
 #include "algernon/mesh/shapes/include/polygon.h"
-#include "algernon/mesh/include/face.h"
+#include "algernon/mesh/include/face_indices.h"
 #include <numeric>
 
 namespace Algernon {
@@ -7,7 +7,7 @@ namespace Algernon {
 Polygon::Polygon(std::span<const Vector3f> points) : vertices_(points.begin(), points.end()) {
 }
 
-Polygon::Polygon(std::span<const Vector3f> points, const Face &face) {
+Polygon::Polygon(std::span<const Vector3f> points, const FaceIndices &face) {
   vertices_.reserve(face.size());
   for (const auto &index : face) {
     vertices_.emplace_back(points[index]);
