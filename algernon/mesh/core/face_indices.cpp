@@ -11,6 +11,26 @@ FaceIndices::FaceIndices(std::initializer_list<IndexType> indices) : indices_(in
 FaceIndices::FaceIndices(IndexType i0, IndexType i1, IndexType i2) : indices_{i0, i1, i2} {
 }
 
+std::size_t FaceIndices::size() const {
+  return indices_.size();
+}
+
+std::vector<IndexType>::iterator FaceIndices::begin() {
+  return indices_.begin();
+}
+
+std::vector<IndexType>::const_iterator FaceIndices::begin() const {
+  return indices_.cbegin();
+}
+
+std::vector<IndexType>::iterator FaceIndices::end() {
+  return indices_.end();
+}
+
+std::vector<IndexType>::const_iterator FaceIndices::end() const {
+  return indices_.cend();
+}
+
 Index2 FaceIndices::GetEdge(IndexType index) const {
   auto i0 = indices_[(index + 0) % size()]; // Convenient for getting the next edge
   auto i1 = indices_[(index + 1) % size()];

@@ -1,4 +1,5 @@
 #include "conway.h"
+#include <ranges>
 
 namespace Algernon {
 

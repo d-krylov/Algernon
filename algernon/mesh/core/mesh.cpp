@@ -4,7 +4,7 @@
 namespace Algernon {
 
 Mesh::Mesh(const std::filesystem::path &path) {
-  LoadGLTF(path);
+  LoadWavefront(path);
 }
 
 std::span<const Vector3f> Mesh::GetVertices() const {

@@ -11,6 +11,7 @@
 #include "algernon/geometry/include/geometry_element_walkers.h"
 #include "algernon/mesh/SDF/SDF.h"
 #include "algernon/algorithms/conway/conway.h"
+#include "algernon/algorithms/laplacian_smoothing/laplacian_smoothing.h"
 #include "algernon/algorithms/marching_cubes/marching_cubes.h"
 
 #endif // ALGERNON_H

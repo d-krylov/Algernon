@@ -1,4 +1,6 @@
 #include "algernon/geometry/include/geometry.h"
+#include "algernon/geometry/include/geometry_element_walkers.h"
+#include "algernon/mesh/include/face_indices.h"
 
 namespace Algernon {
 
@@ -18,22 +20,6 @@ IndexType Geometry::GetHalfedgeIndexImplicit(IndexType edge_index) {
   return edge_index * 2;
 }
 
-std::span<const Geometry::halfedge_t> Geometry::GetHalfedges() const {
-  return halfedges_;
-}
-
-std::span<const IndexType> Geometry::GetFaceIndices() const {
-  return face_indices_;
-}
-
-std::span<const IndexType> Geometry::GetEdgeIndices() const {
-  return edge_indices_;
-}
-
-std::span<const IndexType> Geometry::GetVertexIndices() const {
-  return vertex_indices_;
-}
-
 Geometry::halfedge_t Geometry::halfedge(IndexType index) const {
   return halfedges_[index];
 }
@@ -50,8 +36,36 @@ IndexType Geometry::vertex(IndexType index) const {
   return vertex_indices_[index];
 }
 
+Halfedge Geometry::GetHalfedge(IndexType index) const {
+  return Halfedge(this, index);
+}
+
+Vertex Geometry::GetVertex(IndexType index) const {
+  return Vertex(this, index);
+}
+
+Face Geometry::GetFace(IndexType index) const {
+  return Face(this, index);
+}
+
+Edge Geometry::GetEdge(IndexType index) const {
+  return Edge(this, index);
+}
+
 Geometry::Geometry(std::span<const FaceIndices> faces) {
   BuildExplicit(faces);
+}
+
+std::vector<FaceIndices> Geometry::GetFaceIndices() const {
+  std::vector<FaceIndices> out;
+  for (const auto &face : GetFaces()) {
+    std::vector<IndexType> vertices;
+    for (const auto &vertex : face.GetAdjacentVerices()) {
+      vertices.emplace_back(vertex.GetIndex());
+    }
+    out.emplace_back(vertices);
+  }
+  return out;
 }
 
 } // namespace Algernon

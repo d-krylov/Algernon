@@ -5,6 +5,8 @@
 
 namespace Algernon {
 
+// VERTEX WALKERS
+
 class VertexAdjacentVerticesWalker {
 public:
   using element_type = Halfedge;
@@ -29,6 +31,43 @@ struct VertexAdjacentEdgesWalker {
 };
 
 struct VertexAdjacentFacesWalker {
+  using element_type = Halfedge;
+  using return_type = Face;
+
+  void Advance();
+
+  return_type GetCurrent() const;
+
+  element_type current_element_;
+};
+
+// FACE WALKERS
+
+struct FaceAdjacentVerticesWalker {
+  using element_type = Halfedge;
+  using return_type = Vertex;
+
+  void Advance();
+
+  return_type GetCurrent() const;
+
+  element_type current_element_;
+};
+
+struct FaceAdjacentEdgesWalker {
+  using element_type = Halfedge;
+  using return_type = Edge;
+
+  void Advance();
+
+  return_type GetCurrent() const;
+
+  element_type current_element_;
+};
+
+// EDGE WALKERS
+
+struct EdgeAdjacentFacesWalker {
   using element_type = Halfedge;
   using return_type = Face;
 

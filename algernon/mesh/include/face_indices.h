@@ -4,8 +4,6 @@
 #include "algernon/core/include/core_types.h"
 #include <vector>
 #include <span>
-#include <ranges>
-#include <functional>
 
 namespace Algernon {
 
@@ -17,15 +15,15 @@ public:
 
   FaceIndices(IndexType i0, IndexType i1, IndexType i2);
 
-  auto size() const;
+  std::size_t size() const;
 
-  auto begin();
+  std::vector<IndexType>::iterator begin();
 
-  auto begin() const;
+  std::vector<IndexType>::iterator end();
 
-  auto end();
+  std::vector<IndexType>::const_iterator begin() const;
 
-  auto end() const;
+  std::vector<IndexType>::const_iterator end() const;
 
   auto GetEdgeView() const;
 

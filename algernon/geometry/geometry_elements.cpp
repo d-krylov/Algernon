@@ -23,7 +23,28 @@ bool GeometryElement::IsValid() const {
 GeometryElement::GeometryElement(const Geometry *geometry, IndexType index) : geometry_(geometry), index_(index) {
 }
 
+// VERTEX
 Vertex::Vertex(const Geometry *geometry, IndexType index) : GeometryElement(geometry, index) {
+}
+
+Halfedge Vertex::GetHalfedge() const {
+  return Halfedge(GetGeometry(), GetGeometry()->vertex(GetIndex()));
+}
+
+std::size_t Vertex::GetDegree() const {
+  std::size_t ret = 0;
+  for (const auto &edge : GetAdjacentEdges()) {
+    ret++;
+  }
+  return ret;
+}
+
+std::size_t Vertex::GetFaceDegree() const {
+  std::size_t ret = 0;
+  for (const auto &face : GetAdjacentFaces()) {
+    ret++;
+  }
+  return ret;
 }
 
 GeometryIterator<VertexAdjacentVerticesWalker> Vertex::GetAdjacentVertices() const {
@@ -38,31 +59,52 @@ GeometryIterator<VertexAdjacentFacesWalker> Vertex::GetAdjacentFaces() const {
   return GeometryIterator<VertexAdjacentFacesWalker>(GetHalfedge());
 }
 
+// EDGE
 Edge::Edge(const Geometry *geometry, IndexType index) : GeometryElement(geometry, index) {
 }
 
-Face::Face(const Geometry *geometry, IndexType index) : GeometryElement(geometry, index) {
-}
-
-Halfedge::Halfedge(const Geometry *geometry, IndexType index) : GeometryElement(geometry, index) {
-}
-
 Vertex Edge::GetSourceVertex() const {
+  return GetHalfedge().GetSourceVertex();
 }
 
 Vertex Edge::GetTargetVertex() const {
+  return GetHalfedge().GetTargetVertex();
 }
 
 Halfedge Edge::GetHalfedge() const {
   return Halfedge(GetGeometry(), GetGeometry()->edge(GetIndex()));
 }
 
-Halfedge Vertex::GetHalfedge() const {
-  return Halfedge(GetGeometry(), GetGeometry()->vertex(GetIndex()));
+GeometryIterator<EdgeAdjacentFacesWalker> Edge::GetAdjacentFaces() const {
+  return GeometryIterator<EdgeAdjacentFacesWalker>(GetHalfedge());
+}
+
+// FACE
+Face::Face(const Geometry *geometry, IndexType index) : GeometryElement(geometry, index) {
+}
+
+std::size_t Face::GetDegree() const {
+  std::size_t ret = 0;
+  for (const auto &vertex : GetAdjacentVerices()) {
+    ret++;
+  }
+  return ret;
 }
 
 Halfedge Face::GetHalfedge() const {
   return Halfedge(GetGeometry(), GetGeometry()->face(GetIndex()));
+}
+
+GeometryIterator<FaceAdjacentVerticesWalker> Face::GetAdjacentVerices() const {
+  return GeometryIterator<FaceAdjacentVerticesWalker>(GetHalfedge());
+}
+
+GeometryIterator<FaceAdjacentEdgesWalker> Face::GetAdjacentEdges() const {
+  return GeometryIterator<FaceAdjacentEdgesWalker>(GetHalfedge());
+}
+
+// HALFEDGE
+Halfedge::Halfedge(const Geometry *geometry, IndexType index) : GeometryElement(geometry, index) {
 }
 
 Halfedge Halfedge::GetNextHalfedge() const {

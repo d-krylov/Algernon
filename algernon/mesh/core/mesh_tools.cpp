@@ -1,4 +1,6 @@
 #include "algernon/mesh/include/mesh_tools.h"
+#include "algernon/mesh/include/face_indices.h"
+#include <ranges>
 #include <unordered_set>
 #include <algorithm>
 #include <numeric>
@@ -19,10 +21,6 @@ std::vector<FaceIndices> TriangulateFaces(std::span<const FaceIndices> faces) {
                     | std::views::join                                         //
                     | std::views::common;                                      //
   return std::vector<FaceIndices>(faces_view.begin(), faces_view.end());
-}
-
-IndexType GetNumberVerticesInFaces(std::span<const FaceIndices> faces) {
-  return std::ranges::max(faces | std::views::join) + 1;
 }
 
 IndexType GetNumberEdgesInFacesSlow(std::span<const FaceIndices> faces) {

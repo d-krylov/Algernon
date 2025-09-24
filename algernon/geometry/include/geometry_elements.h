@@ -11,6 +11,9 @@ class Halfedge;
 class VertexAdjacentVerticesWalker;
 class VertexAdjacentEdgesWalker;
 class VertexAdjacentFacesWalker;
+class EdgeAdjacentFacesWalker;
+class FaceAdjacentVerticesWalker;
+class FaceAdjacentEdgesWalker;
 
 class GeometryElement {
 public:
@@ -41,6 +44,7 @@ public:
 
   Halfedge GetHalfedge() const;
   std::size_t GetDegree() const;
+  std::size_t GetFaceDegree() const;
 };
 
 class Edge : public GeometryElement {
@@ -50,6 +54,8 @@ public:
   Vertex GetSourceVertex() const;
   Vertex GetTargetVertex() const;
 
+  GeometryIterator<EdgeAdjacentFacesWalker> GetAdjacentFaces() const;
+
   Halfedge GetHalfedge() const;
 };
 
@@ -57,6 +63,10 @@ class Face : public GeometryElement {
 public:
   Face(const Geometry *geometry, IndexType index);
 
+  GeometryIterator<FaceAdjacentVerticesWalker> GetAdjacentVerices() const;
+  GeometryIterator<FaceAdjacentEdgesWalker> GetAdjacentEdges() const;
+
+  std::size_t GetDegree() const;
   Halfedge GetHalfedge() const;
 };
 

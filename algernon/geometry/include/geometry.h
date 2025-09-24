@@ -33,10 +33,19 @@ public:
 
   bool UsesImplicitTwin() const;
 
-  std::span<const halfedge_t> GetHalfedges() const;
-  std::span<const IndexType> GetFaceIndices() const;
-  std::span<const IndexType> GetEdgeIndices() const;
-  std::span<const IndexType> GetVertexIndices() const;
+  auto GetHalfedges() const;
+  auto GetFaces() const;
+  auto GetEdges() const;
+  auto GetVertices() const;
+
+  std::vector<FaceIndices> GetFaceIndices() const;
+
+  Halfedge GetHalfedge(IndexType index) const;
+  Vertex GetVertex(IndexType index) const;
+  Face GetFace(IndexType index) const;
+  Edge GetEdge(IndexType index) const;
+
+  bool Flip(const Edge &edge);
 
 protected:
   void Allocate(std::span<const FaceIndices> faces);
@@ -72,5 +81,7 @@ private:
 };
 
 } // namespace Algernon
+
+#include "geometry.ipp"
 
 #endif // ALGERNON_GEOMETRY_H

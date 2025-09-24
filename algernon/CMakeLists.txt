@@ -19,12 +19,17 @@ set(ALGERNON_ALGORITHMS_SOURCES
   ${ALGERNON_SOURCE_DIR}/algorithms/conway/conway.cpp
   ${ALGERNON_SOURCE_DIR}/algorithms/marching_cubes/marching_cubes.cpp
   ${ALGERNON_SOURCE_DIR}/algorithms/marching_cubes/marching_cubes_tables.cpp
+  ${ALGERNON_SOURCE_DIR}/algorithms/laplacian_smoothing/laplacian_smoothing.cpp
+  ${ALGERNON_SOURCE_DIR}/algorithms/subdivision/catmull_clark.cpp
+  ${ALGERNON_SOURCE_DIR}/algorithms/triangulation/delaunay.cpp
 )
 
 set(ALGERNON_GEOMETRY_SOURCES
   ${ALGERNON_SOURCE_DIR}/geometry/geometry_element_walkers.cpp
   ${ALGERNON_SOURCE_DIR}/geometry/geometry_elements.cpp
   ${ALGERNON_SOURCE_DIR}/geometry/geometry_builder.cpp
+  ${ALGERNON_SOURCE_DIR}/geometry/geometry_mutation.cpp
+  ${ALGERNON_SOURCE_DIR}/geometry/geometry_tools.cpp
   ${ALGERNON_SOURCE_DIR}/geometry/geometry.cpp
 )
 
