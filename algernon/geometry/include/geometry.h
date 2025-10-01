@@ -24,12 +24,10 @@ public:
     IndexType vertex_{INVALID_INDEX}; // start vertex of a half-edge
     IndexType face_{INVALID_INDEX};   // incident face of a half-edge
     IndexType next_{INVALID_INDEX};   // the next half-edge on the face in counter-clockwise order
-    IndexType edge_{INVALID_INDEX};
-    IndexType twin_{INVALID_INDEX};
   };
 
 public:
-  Geometry(std::span<const FaceIndices> faces);
+  Geometry(std::span<const FaceIndices> faces, bool is_implicit = false);
 
   bool UsesImplicitTwin() const;
 
@@ -45,6 +43,11 @@ public:
   Face GetFace(IndexType index) const;
   Edge GetEdge(IndexType index) const;
 
+  std::size_t GetNumberHalfedges() const;
+  std::size_t GetNumberVertices() const;
+  std::size_t GetNumberFaces() const;
+  std::size_t GetNumberEdges() const;
+
   bool Flip(const Edge &edge);
 
 protected:
@@ -53,6 +56,8 @@ protected:
   void BuildImplicit(std::span<const FaceIndices> faces);
   void BuildExplicit(std::span<const FaceIndices> faces);
 
+  void GetBoundaryLoops();
+
   static IndexType GetTwinIndexImplicit(IndexType he_index);
   static IndexType GetEdgeIndexImplicit(IndexType he_index);
   static IndexType GetHalfedgeIndexImplicit(IndexType edge_index);
@@ -60,16 +65,17 @@ protected:
   halfedge_t halfedge(IndexType index) const;
   IndexType face(IndexType index) const;
   IndexType edge(IndexType index) const;
+  IndexType twin(IndexType index) const;
   IndexType vertex(IndexType index) const;
 
 private:
   GeometryStatistics geometry_statistics_;
   std::vector<halfedge_t> halfedges_;
-  std::vector<IndexType> he_edges_;       // edge index for halfedge. For explicit
-  std::vector<IndexType> he_twins_;       // twin index for halfedge. For explicit
-  std::vector<IndexType> face_indices_;   // index into halfedges_ for some halfedge belonging to a face
-  std::vector<IndexType> edge_indices_;   // index into halfedges_ for some halfedge belonging to a edge
-  std::vector<IndexType> vertex_indices_; // index into halfedges_ for some halfedge emanating from a vertex
+  std::vector<IndexType> he_edges_; // edge index for halfedge. For explicit
+  std::vector<IndexType> he_twins_; // twin index for halfedge. For explicit
+  std::vector<IndexType> faces_;    // index into halfedges_ for some halfedge belonging to a face
+  std::vector<IndexType> edges_;    // index into halfedges_ for some halfedge belonging to a edge
+  std::vector<IndexType> vertices_; // index into halfedges_ for some halfedge emanating from a vertex
 
   bool uses_implicit_twin_ = false;
 

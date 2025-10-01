@@ -20,15 +20,15 @@ bool Geometry::Flip(const Edge &edge) {
   auto fb = hb1.GetFace();
 
   if (va.GetHalfedge() == ha1) {
-    vertex_indices_[va.GetIndex()] = hb2.GetIndex();
+    vertices_[va.GetIndex()] = hb2.GetIndex();
   }
 
   if (vb.GetHalfedge() == hb1) {
-    vertex_indices_[vb.GetIndex()] = ha2.GetIndex();
+    vertices_[vb.GetIndex()] = ha2.GetIndex();
   }
 
-  face_indices_[fa.GetIndex()] = ha1.GetIndex();
-  face_indices_[fb.GetIndex()] = hb1.GetIndex();
+  faces_[fa.GetIndex()] = ha1.GetIndex();
+  faces_[fb.GetIndex()] = hb1.GetIndex();
 
   halfedges_[ha1.GetIndex()].next_ = hb3.GetIndex();
   halfedges_[hb3.GetIndex()].next_ = ha2.GetIndex();

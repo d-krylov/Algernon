@@ -25,15 +25,19 @@ Geometry::halfedge_t Geometry::halfedge(IndexType index) const {
 }
 
 IndexType Geometry::face(IndexType index) const {
-  return face_indices_[index];
+  return faces_[index];
 }
 
 IndexType Geometry::edge(IndexType index) const {
-  return edge_indices_[index];
+  return UsesImplicitTwin() ? GetEdgeIndexImplicit(index) : he_edges_[index];
+}
+
+IndexType Geometry::twin(IndexType index) const {
+  return UsesImplicitTwin() ? GetTwinIndexImplicit(index) : he_twins_[index];
 }
 
 IndexType Geometry::vertex(IndexType index) const {
-  return vertex_indices_[index];
+  return vertices_[index];
 }
 
 Halfedge Geometry::GetHalfedge(IndexType index) const {
@@ -52,8 +56,24 @@ Edge Geometry::GetEdge(IndexType index) const {
   return Edge(this, index);
 }
 
-Geometry::Geometry(std::span<const FaceIndices> faces) {
-  BuildExplicit(faces);
+std::size_t Geometry::GetNumberHalfedges() const {
+}
+
+std::size_t Geometry::GetNumberVertices() const {
+}
+
+std::size_t Geometry::GetNumberFaces() const {
+}
+
+std::size_t Geometry::GetNumberEdges() const {
+}
+
+Geometry::Geometry(std::span<const FaceIndices> faces, bool is_implicit) : uses_implicit_twin_(is_implicit) {
+  if (is_implicit) {
+    BuildImplicit(faces);
+  } else {
+    BuildExplicit(faces);
+  }
 }
 
 std::vector<FaceIndices> Geometry::GetFaceIndices() const {

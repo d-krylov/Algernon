@@ -3,7 +3,7 @@
 
 using namespace Algernon;
 
-TEST(MeshTest, FacaApi) {
+TEST(MeshTest, FaceApi) {
 
   FaceIndices face{7, 3, 5, 1, 8, 2, 9, 6, 4};
 
@@ -33,22 +33,4 @@ TEST(MeshTest, MeshTools) {
   auto tetrahedron = Polyhedron::MakeTetrahedron();
 
   ASSERT_EQ(tetrahedron.GetEulerСharacteristic(), 2);
-
-  auto edge_face = GetEdgeFaceMap(tetrahedron.GetFaces());
-
-  ASSERT_EQ(edge_face[Index2(0, 1)], 0);
-  ASSERT_EQ(edge_face[Index2(1, 2)], 0);
-  ASSERT_EQ(edge_face[Index2(2, 0)], 0);
-
-  ASSERT_EQ(edge_face[Index2(1, 3)], 1);
-  ASSERT_EQ(edge_face[Index2(3, 2)], 1);
-  ASSERT_EQ(edge_face[Index2(2, 1)], 1);
-
-  ASSERT_EQ(edge_face[Index2(0, 2)], 2);
-  ASSERT_EQ(edge_face[Index2(2, 3)], 2);
-  ASSERT_EQ(edge_face[Index2(3, 0)], 2);
-
-  ASSERT_EQ(edge_face[Index2(0, 3)], 3);
-  ASSERT_EQ(edge_face[Index2(3, 1)], 3);
-  ASSERT_EQ(edge_face[Index2(1, 0)], 3);
 }

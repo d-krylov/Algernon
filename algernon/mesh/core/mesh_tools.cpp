@@ -33,16 +33,6 @@ IndexType GetNumberEdgesInFacesFast(std::span<const FaceIndices> faces) {
   return size_size / 2;
 }
 
-std::unordered_map<Index2, IndexType, Index2Hash> GetEdgeFaceMap(std::span<const FaceIndices> faces) {
-  std::unordered_map<Index2, IndexType, Index2Hash> out;
-  for (const auto &[face_index, face] : std::views::enumerate(faces)) {
-    for (const auto &edge : face.GetEdgeView()) {
-      out.emplace(edge, face_index);
-    }
-  }
-  return out;
-}
-
 std::vector<Index2> GetUniqueEdges(std::span<const FaceIndices> faces) {
   auto edge_set = GetEdgeSet(faces);
   return std::vector<Index2>(edge_set.begin(), edge_set.end());

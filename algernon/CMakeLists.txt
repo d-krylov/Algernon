@@ -29,7 +29,6 @@ set(ALGERNON_GEOMETRY_SOURCES
   ${ALGERNON_SOURCE_DIR}/geometry/geometry_elements.cpp
   ${ALGERNON_SOURCE_DIR}/geometry/geometry_builder.cpp
   ${ALGERNON_SOURCE_DIR}/geometry/geometry_mutation.cpp
-  ${ALGERNON_SOURCE_DIR}/geometry/geometry_tools.cpp
   ${ALGERNON_SOURCE_DIR}/geometry/geometry.cpp
 )
 

@@ -15,7 +15,6 @@ IndexType GetNumberEdgesInFacesSlow(std::span<const FaceIndices> faces); // Coun
 std::vector<FaceIndices> TriangulateFaces(std::span<const FaceIndices> faces);
 std::vector<Index2> GetUniqueEdges(std::span<const FaceIndices> faces); // Return vector of unique edges
 
-std::unordered_map<Index2, IndexType, Index2Hash> GetEdgeFaceMap(std::span<const FaceIndices> faces);
 std::set<Index2, Index2UnorderedComparator> GetEdgeSet(std::span<const FaceIndices> faces);
 
 } // namespace Algernon

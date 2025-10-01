@@ -30,15 +30,15 @@ int main() {
   }
 #endif
 
-  // Mesh mesh("../../Models/bunny.obj");
+  Mesh mesh("../../Models/bunny.obj");
 
-  // auto smooth = LaplacianSmoothing(mesh.GetVertices(), mesh.GetFaces(), 7);
+  auto smooth = LaplacianSmoothing(mesh.GetVertices(), mesh.GetFaces(), 9);
 
   auto polyhedron = Polyhedron::MakeIcosahedron();
 
-  Geometry geometry(polyhedron.GetFaces());
+  Geometry geometry(mesh.GetFaces());
 
-  auto polyscope_mesh = polyscope::registerSurfaceMesh("my mesh", polyhedron.GetVertices(), geometry.GetFaceIndices());
+  auto polyscope_mesh = polyscope::registerSurfaceMesh("my mesh", smooth, geometry.GetFaceIndices());
 
   // polyscope_mesh->addVertexColorQuantity("vertex colors", mesh.GetColors());
 

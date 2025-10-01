@@ -76,6 +76,7 @@ public:
 
   Halfedge GetTwinHalfedge() const;
   Halfedge GetNextHalfedge() const;
+  Halfedge GetPreviousHalfedge() const;
   Halfedge GetNextOutgoingNeighbor() const;
   Vertex GetSourceVertex() const;
   Vertex GetTargetVertex() const;

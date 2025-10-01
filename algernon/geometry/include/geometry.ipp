@@ -10,15 +10,15 @@ inline auto Geometry::GetHalfedges() const {
 }
 
 inline auto Geometry::GetFaces() const {
-  return BaseElements(this, &Geometry::GetFace, face_indices_.size());
+  return BaseElements(this, &Geometry::GetFace, faces_.size());
 }
 
 inline auto Geometry::GetEdges() const {
-  return BaseElements(this, &Geometry::GetEdge, edge_indices_.size());
+  return BaseElements(this, &Geometry::GetEdge, edges_.size());
 }
 
 inline auto Geometry::GetVertices() const {
-  return BaseElements(this, &Geometry::GetVertex, vertex_indices_.size());
+  return BaseElements(this, &Geometry::GetVertex, vertices_.size());
 }
 
 } // namespace Algernon

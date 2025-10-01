@@ -112,7 +112,17 @@ Halfedge Halfedge::GetNextHalfedge() const {
 }
 
 Halfedge Halfedge::GetTwinHalfedge() const {
-  return Halfedge(GetGeometry(), GetGeometry()->halfedge(index_).twin_);
+  return Halfedge(GetGeometry(), GetGeometry()->twin(GetIndex()));
+}
+
+Halfedge Halfedge::GetPreviousHalfedge() const {
+  auto current_halfedge = *this;
+  auto next_halfedge = GetNextHalfedge();
+  while (next_halfedge != *this) {
+    current_halfedge = next_halfedge;
+    next_halfedge = current_halfedge.GetNextHalfedge();
+  }
+  return current_halfedge;
 }
 
 Vertex Halfedge::GetSourceVertex() const {
@@ -128,7 +138,7 @@ Halfedge Halfedge::GetNextOutgoingNeighbor() const {
 }
 
 Edge Halfedge::GetEdge() const {
-  return Edge(GetGeometry(), GetGeometry()->halfedge(GetIndex()).edge_);
+  return Edge(GetGeometry(), GetGeometry()->edge(GetIndex()));
 }
 
 Face Halfedge::GetFace() const {
