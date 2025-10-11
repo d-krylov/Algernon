@@ -1,6 +1,7 @@
 set(EXECUTABLES
   shapes
   marching_cubes
+  mesh_mutation
 )
 
 FetchContent_MakeAvailable(

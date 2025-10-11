@@ -6,6 +6,8 @@
 namespace Algernon {
 
 Polyhedron OperatorKIS(const Polyhedron &polyhedron);
+Polyhedron OperatorDUAL(const Polyhedron &polyhedron);
+Polyhedron OperatorExpand(const Polyhedron &polyhedron, float alpha);
 
 } // namespace Algernon
 

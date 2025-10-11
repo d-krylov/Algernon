@@ -72,7 +72,7 @@ Vertex Edge::GetTargetVertex() const {
 }
 
 Halfedge Edge::GetHalfedge() const {
-  return Halfedge(GetGeometry(), GetGeometry()->edge(GetIndex()));
+  return Halfedge(GetGeometry(), GetGeometry()->get_edge(GetIndex()));
 }
 
 GeometryIterator<EdgeAdjacentFacesWalker> Edge::GetAdjacentFaces() const {
@@ -92,7 +92,7 @@ std::size_t Face::GetDegree() const {
 }
 
 Halfedge Face::GetHalfedge() const {
-  return Halfedge(GetGeometry(), GetGeometry()->face(GetIndex()));
+  return Halfedge(GetGeometry(), GetGeometry()->get_face(GetIndex()));
 }
 
 GeometryIterator<FaceAdjacentVerticesWalker> Face::GetAdjacentVerices() const {
@@ -103,16 +103,20 @@ GeometryIterator<FaceAdjacentEdgesWalker> Face::GetAdjacentEdges() const {
   return GeometryIterator<FaceAdjacentEdgesWalker>(GetHalfedge());
 }
 
+GeometryIterator<FaceAdjacentHalfedgesWalker> Face::GetAdjacentHalfedges() const {
+  return GeometryIterator<FaceAdjacentHalfedgesWalker>(GetHalfedge());
+}
+
 // HALFEDGE
 Halfedge::Halfedge(const Geometry *geometry, IndexType index) : GeometryElement(geometry, index) {
 }
 
 Halfedge Halfedge::GetNextHalfedge() const {
-  return Halfedge(GetGeometry(), GetGeometry()->halfedge(index_).next_);
+  return Halfedge(GetGeometry(), GetGeometry()->get_halfedge(index_).next_);
 }
 
 Halfedge Halfedge::GetTwinHalfedge() const {
-  return Halfedge(GetGeometry(), GetGeometry()->twin(GetIndex()));
+  return Halfedge(GetGeometry(), GetGeometry()->get_twin(GetIndex()));
 }
 
 Halfedge Halfedge::GetPreviousHalfedge() const {
@@ -125,8 +129,16 @@ Halfedge Halfedge::GetPreviousHalfedge() const {
   return current_halfedge;
 }
 
+Halfedge Halfedge::GetPreviousOutgoingNeighbor() const {
+  auto current_halfedge = *this;
+  while (current_halfedge.GetNextOutgoingNeighbor() != *this) {
+    current_halfedge = current_halfedge.GetNextOutgoingNeighbor();
+  }
+  return current_halfedge.GetTwinHalfedge();
+}
+
 Vertex Halfedge::GetSourceVertex() const {
-  return Vertex(GetGeometry(), GetGeometry()->halfedge(index_).vertex_);
+  return Vertex(GetGeometry(), GetGeometry()->get_halfedge(index_).vertex_);
 }
 
 Vertex Halfedge::GetTargetVertex() const {
@@ -137,12 +149,16 @@ Halfedge Halfedge::GetNextOutgoingNeighbor() const {
   return GetTwinHalfedge().GetNextHalfedge();
 }
 
+Halfedge Halfedge::GetNextIncomingNeighbor() const {
+  return GetNextHalfedge().GetTwinHalfedge();
+}
+
 Edge Halfedge::GetEdge() const {
-  return Edge(GetGeometry(), GetGeometry()->edge(GetIndex()));
+  return Edge(GetGeometry(), GetGeometry()->get_edge(GetIndex()));
 }
 
 Face Halfedge::GetFace() const {
-  return Face(GetGeometry(), GetGeometry()->halfedge(GetIndex()).face_);
+  return Face(GetGeometry(), GetGeometry()->get_halfedge(GetIndex()).face_);
 }
 
 } // namespace Algernon

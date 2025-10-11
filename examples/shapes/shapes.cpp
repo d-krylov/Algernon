@@ -34,11 +34,13 @@ int main() {
 
   auto smooth = LaplacianSmoothing(mesh.GetVertices(), mesh.GetFaces(), 9);
 
-  auto polyhedron = Polyhedron::MakeIcosahedron();
+  auto polyhedron = Polyhedron::MakeHexahedron();
+
+  auto dual = OperatorDUAL(polyhedron);
 
   Geometry geometry(mesh.GetFaces());
 
-  auto polyscope_mesh = polyscope::registerSurfaceMesh("my mesh", smooth, geometry.GetFaceIndices());
+  auto polyscope_mesh = polyscope::registerSurfaceMesh("my mesh", dual.GetVertices(), dual.GetFaces());
 
   // polyscope_mesh->addVertexColorQuantity("vertex colors", mesh.GetColors());
 

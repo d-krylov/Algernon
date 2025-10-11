@@ -14,9 +14,12 @@ class VertexAdjacentFacesWalker;
 class EdgeAdjacentFacesWalker;
 class FaceAdjacentVerticesWalker;
 class FaceAdjacentEdgesWalker;
+class FaceAdjacentHalfedgesWalker;
 
 class GeometryElement {
 public:
+  GeometryElement() = default;
+
   GeometryElement(const Geometry *geometry, IndexType index);
 
   bool IsValid() const;
@@ -36,6 +39,8 @@ protected:
 
 class Vertex : public GeometryElement {
 public:
+  Vertex() = default;
+
   Vertex(const Geometry *geometry, IndexType index);
 
   GeometryIterator<VertexAdjacentVerticesWalker> GetAdjacentVertices() const;
@@ -49,6 +54,8 @@ public:
 
 class Edge : public GeometryElement {
 public:
+  Edge() = default;
+
   Edge(const Geometry *geometry, IndexType index);
 
   Vertex GetSourceVertex() const;
@@ -61,10 +68,13 @@ public:
 
 class Face : public GeometryElement {
 public:
+  Face() = default;
+
   Face(const Geometry *geometry, IndexType index);
 
-  GeometryIterator<FaceAdjacentVerticesWalker> GetAdjacentVerices() const;
   GeometryIterator<FaceAdjacentEdgesWalker> GetAdjacentEdges() const;
+  GeometryIterator<FaceAdjacentVerticesWalker> GetAdjacentVerices() const;
+  GeometryIterator<FaceAdjacentHalfedgesWalker> GetAdjacentHalfedges() const;
 
   std::size_t GetDegree() const;
   Halfedge GetHalfedge() const;
@@ -72,12 +82,16 @@ public:
 
 class Halfedge : public GeometryElement {
 public:
+  Halfedge() = default;
+
   Halfedge(const Geometry *geometry, IndexType index);
 
   Halfedge GetTwinHalfedge() const;
   Halfedge GetNextHalfedge() const;
   Halfedge GetPreviousHalfedge() const;
+  Halfedge GetPreviousOutgoingNeighbor() const;
   Halfedge GetNextOutgoingNeighbor() const;
+  Halfedge GetNextIncomingNeighbor() const;
   Vertex GetSourceVertex() const;
   Vertex GetTargetVertex() const;
   Edge GetEdge() const;

@@ -10,10 +10,15 @@ namespace Algernon {
 class FaceIndices;
 
 struct GeometryStatistics {
-  IndexType halfedges_{0};
-  IndexType vertices_{0};
-  IndexType faces_{0};
-  IndexType edges_{0};
+  IndexType number_boundary_loops_{0};
+  IndexType number_boundary_edges_{0};
+  IndexType number_halfedges_{0};
+  IndexType number_vertices_{0};
+  IndexType number_faces_{0};
+  IndexType number_edges_{0};
+  IndexType number_delered_vertices_{0};
+  IndexType number_delered_faces_{0};
+  IndexType number_deleted_edges_{0};
 };
 
 class Geometry {
@@ -43,10 +48,20 @@ public:
   Face GetFace(IndexType index) const;
   Edge GetEdge(IndexType index) const;
 
+  // MUTATION
+  void InsertVertexInFace(Face face);
+  void InsertVertexOnEdge(Edge edge);
+  void InsertEdgeInFace(Halfedge he1, Halfedge he2);
+
   std::size_t GetNumberHalfedges() const;
   std::size_t GetNumberVertices() const;
   std::size_t GetNumberFaces() const;
   std::size_t GetNumberEdges() const;
+
+  std::size_t GetHalfedgesSize() const;
+  std::size_t GetVerticesSize() const;
+  std::size_t GetFacesSize() const;
+  std::size_t GetEdgesSize() const;
 
   bool Flip(const Edge &edge);
 
@@ -58,15 +73,26 @@ protected:
 
   void GetBoundaryLoops();
 
+  // IMPLICIT GEOMETRY
   static IndexType GetTwinIndexImplicit(IndexType he_index);
   static IndexType GetEdgeIndexImplicit(IndexType he_index);
   static IndexType GetHalfedgeIndexImplicit(IndexType edge_index);
 
-  halfedge_t halfedge(IndexType index) const;
-  IndexType face(IndexType index) const;
-  IndexType edge(IndexType index) const;
-  IndexType twin(IndexType index) const;
+  // SAFE CREATORS
+  Halfedge CreateHalfedge(IndexType vertex = INVALID_INDEX, IndexType face = INVALID_INDEX, IndexType next = INVALID_INDEX);
+  Halfedge CreateEdge();
+  Vertex CreateVertex(IndexType he_index = INVALID_INDEX);
+  Face CreateFace(IndexType he_index = INVALID_INDEX);
+
+  // FOR GEOMETRY ELEMENTS
+  halfedge_t get_halfedge(IndexType index) const;
+  IndexType get_face(IndexType index) const;
+  IndexType get_edge(IndexType index) const;
+  IndexType get_twin(IndexType index) const;
   IndexType vertex(IndexType index) const;
+
+  IndexType get_next_outgoing_neighbor(IndexType index) const;
+  IndexType get_next_incoming_neighbor(IndexType index) const;
 
 private:
   GeometryStatistics geometry_statistics_;

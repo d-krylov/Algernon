@@ -65,6 +65,17 @@ struct FaceAdjacentEdgesWalker {
   element_type current_element_;
 };
 
+struct FaceAdjacentHalfedgesWalker {
+  using element_type = Halfedge;
+  using return_type = Halfedge;
+
+  void Advance();
+
+  return_type GetCurrent() const;
+
+  element_type current_element_;
+};
+
 // EDGE WALKERS
 
 struct EdgeAdjacentFacesWalker {

@@ -31,15 +31,15 @@ auto GetEdgeInformation(std::span<const FaceIndices> facets) {
 }
 
 void Geometry::Allocate(std::span<const FaceIndices> faces) {
-  halfedges_.reserve(geometry_statistics_.edges_ * 2);
-  edges_.resize(geometry_statistics_.edges_, INVALID_INDEX);
-  faces_.resize(geometry_statistics_.faces_, INVALID_INDEX);
-  vertices_.resize(geometry_statistics_.vertices_, INVALID_INDEX);
+  halfedges_.reserve(geometry_statistics_.number_edges_ * 2);
+  edges_.resize(geometry_statistics_.number_edges_, INVALID_INDEX);
+  faces_.resize(geometry_statistics_.number_faces_, INVALID_INDEX);
+  vertices_.resize(geometry_statistics_.number_vertices_, INVALID_INDEX);
 }
 
 void Geometry::BuildImplicit(std::span<const FaceIndices> facets) {
-  geometry_statistics_.faces_ = facets.size();
-  geometry_statistics_.vertices_ = GetNumberVerticesInFaces(facets);
+  geometry_statistics_.number_faces_ = facets.size();
+  geometry_statistics_.number_vertices_ = GetNumberVerticesInFaces(facets);
 
   Allocate(facets);
 
@@ -62,7 +62,7 @@ void Geometry::BuildImplicit(std::span<const FaceIndices> facets) {
         halfedges_.emplace_back(facet_edge.i1, INVALID_INDEX, INVALID_INDEX);
       }
       vertices_[facet_edge.i0] = halfedge_index;
-      
+
       if (facet_edge_index == 0) {
         faces_[facet_index] = halfedge_index;
         starting_he_index = halfedge_index;
@@ -71,29 +71,55 @@ void Geometry::BuildImplicit(std::span<const FaceIndices> facets) {
       }
       previous_he_index = halfedge_index;
     }
-    halfedges_[previous_he_index].next_ = starting_he_index; 
+    halfedges_[previous_he_index].next_ = starting_he_index;
+  }
+
+  GetBoundaryLoops();
+}
+
+void Geometry::GetBoundaryLoops() {
+  for (const auto &[halfedge_index, halfedge] : std::views::enumerate(halfedges_)) {
+    if (halfedge.face_ != INVALID_INDEX) {
+      continue;
+    }
+
+    auto current_he_index = halfedge_index;
+    auto previous_he_index = INVALID_INDEX;
+
+    do {
+
+      previous_he_index = current_he_index;
+      current_he_index = get_twin(get_next_outgoing_neighbor(current_he_index));
+
+      while (get_halfedge(current_he_index).face_ != INVALID_INDEX) {
+        if (current_he_index == halfedge_index) {
+          break;
+        }
+        current_he_index = get_next_incoming_neighbor(current_he_index);
+      }
+
+      halfedges_[current_he_index].next_ = previous_he_index;
+
+    } while (current_he_index != halfedge_index);
   }
 }
 
 void Geometry::BuildExplicit(std::span<const FaceIndices> faces) {
-  geometry_statistics_.faces_ = faces.size();
-  geometry_statistics_.edges_ = GetNumberEdgesInFacesSlow(faces);
-  geometry_statistics_.vertices_ = GetNumberVerticesInFaces(faces);
+  geometry_statistics_.number_faces_ = faces.size();
+  geometry_statistics_.number_edges_ = GetNumberEdgesInFacesSlow(faces);
+  geometry_statistics_.number_vertices_ = GetNumberVerticesInFaces(faces);
 
   Allocate(faces);
 
   auto edges_information = GetEdgeInformation(faces);
 
   for (const auto &[edge_index, edge_data] : std::views::enumerate(edges_information)) {
-    halfedges_.emplace_back(edge_data.edge.i0, edge_data.facet, edge_data.next);
+    CreateHalfedge(edge_data.edge.i0, edge_data.facet, edge_data.next);
     vertices_[edge_data.edge.i0] = edge_index;
     if (faces_[edge_data.facet] == INVALID_INDEX) {
       faces_[edge_data.facet] = edge_index;
     }
   }
-
-  he_edges_.resize(halfedges_.size(), INVALID_INDEX);
-  he_twins_.resize(halfedges_.size(), INVALID_INDEX);
 
   std::map<Index2, IndexType, Index2UnorderedComparator> edge_he_index_map;
 
@@ -125,9 +151,6 @@ void Geometry::BuildExplicit(std::span<const FaceIndices> faces) {
       he_twins_[he_current] = he_index;
     }
   }
-}
-
-void Geometry::GetBoundaryLoops() {
 }
 
 } // namespace Algernon

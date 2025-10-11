@@ -206,7 +206,19 @@ TEST(GeometryTest, HexahedronWithBoundary) {
     {4, 0, 3, 7}  // LEFT
   };
 
-  Geometry geometry(faces);
+  Geometry geometry(faces, true);
+}
+
+TEST(GeometryTest, SimpleMutation) {
+  std::vector<FaceIndices> faces{{0, 1, 2, 3}};
+
+  Geometry geometry(faces, true);
+
+  geometry.InsertVertexInFace(geometry.GetFace(0));
+
+  auto halfedges = geometry.GetHalfedges();
+
+  ASSERT_EQ(MakeHalfedge(halfedges[0]), HalfedgeInformation(0, 0, 1, 0, 1));
 }
 
 TEST(GeometryTest, WeirdFaces) {

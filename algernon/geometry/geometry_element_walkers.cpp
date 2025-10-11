@@ -45,6 +45,14 @@ FaceAdjacentEdgesWalker::return_type FaceAdjacentEdgesWalker::GetCurrent() const
   return current_element_.GetEdge();
 }
 
+void FaceAdjacentHalfedgesWalker::Advance() {
+  current_element_ = current_element_.GetNextHalfedge();
+}
+
+FaceAdjacentHalfedgesWalker::return_type FaceAdjacentHalfedgesWalker::GetCurrent() const {
+  return current_element_;
+}
+
 // EDGE WALKERS
 
 void EdgeAdjacentFacesWalker::Advance() {
