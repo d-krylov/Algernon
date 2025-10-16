@@ -6,11 +6,11 @@
 namespace Algernon {
 
 inline auto Geometry::GetHalfedges() const {
-  return BaseElements(this, &Geometry::GetHalfedge, halfedges_.size());
+  return BaseElements(this, &Geometry::GetHalfedge, GetHalfedgesSize());
 }
 
 inline auto Geometry::GetFaces() const {
-  return BaseElements(this, &Geometry::GetFace, faces_.size());
+  return BaseElements(this, &Geometry::GetFace, GetFacesSize());
 }
 
 inline auto Geometry::GetEdges() const {
@@ -18,7 +18,7 @@ inline auto Geometry::GetEdges() const {
 }
 
 inline auto Geometry::GetVertices() const {
-  return BaseElements(this, &Geometry::GetVertex, vertices_.size());
+  return BaseElements(this, &Geometry::GetVertex, GetVerticesSize());
 }
 
 } // namespace Algernon

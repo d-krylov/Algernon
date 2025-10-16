@@ -11,6 +11,8 @@ class Mesh {
 public:
   Mesh(const std::filesystem::path &path);
 
+  Mesh(std::span<const Vector3f> vertices, std::span<const FaceIndices> faces);
+
   void SetVertexColor(IndexType vertex_index, const Vector3f &color);
 
   std::span<const Vector3f> GetVertices() const;

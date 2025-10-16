@@ -7,6 +7,10 @@ Mesh::Mesh(const std::filesystem::path &path) {
   LoadWavefront(path);
 }
 
+Mesh::Mesh(std::span<const Vector3f> vertices, std::span<const FaceIndices> faces)
+  : vertices_(vertices.begin(), vertices.end()), faces_(faces.begin(), faces.end()) {
+}
+
 std::span<const Vector3f> Mesh::GetVertices() const {
   return vertices_;
 }

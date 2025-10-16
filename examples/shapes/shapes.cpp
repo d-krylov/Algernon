@@ -12,35 +12,23 @@ int main() {
   polyscope::init();
 
   auto sdf = [&](Vector3f p) {
-    p = OperationTwist(p, 0.5f);
-    auto s1 = SDBox(p, 1.0f, 1.0f, 1.0f);
+    auto s1 = SDSphere(p, 1.0f);
     return s1;
   };
 
-#if 0
-  auto vertices = TriangulateGrid(sdf, Vector3f(-3.0f), Vector3f(3.0f), Vector3f(300), 0.001f);
+  auto vertices = TriangulateGrid(sdf, Vector3f(-2.0f), Vector3f(2.0f), Vector3f(100), 0.001f);
 
-  std::vector<std::vector<uint32_t>> indices;
+  std::vector<FaceIndices> indices;
 
   for (auto i = 0; i < vertices.size(); i += 3) {
-    auto &t = indices.emplace_back();
-    t.emplace_back(i);
-    t.emplace_back(i + 1);
-    t.emplace_back(i + 2);
+    indices.emplace_back(i, i + 1, i + 2);
   }
-#endif
 
   Mesh mesh("../../Models/bunny.obj");
 
-  auto smooth = LaplacianSmoothing(mesh.GetVertices(), mesh.GetFaces(), 9);
+  auto del = GetDelauney(mesh.GetVertices(), mesh.GetFaces());
 
-  auto polyhedron = Polyhedron::MakeHexahedron();
-
-  auto dual = OperatorDUAL(polyhedron);
-
-  Geometry geometry(mesh.GetFaces());
-
-  auto polyscope_mesh = polyscope::registerSurfaceMesh("my mesh", dual.GetVertices(), dual.GetFaces());
+  auto polyscope_mesh = polyscope::registerSurfaceMesh("my mesh", del.GetVertices(), del.GetFaces());
 
   // polyscope_mesh->addVertexColorQuantity("vertex colors", mesh.GetColors());
 

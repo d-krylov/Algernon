@@ -41,6 +41,8 @@ public:
   auto GetEdges() const;
   auto GetVertices() const;
 
+  Edge FindEdge(Vertex start, Vertex end) const;
+
   std::vector<FaceIndices> GetFaceIndices() const;
 
   Halfedge GetHalfedge(IndexType index) const;
@@ -49,9 +51,17 @@ public:
   Edge GetEdge(IndexType index) const;
 
   // MUTATION
+  void RemoveEdge(Edge edge);
   void InsertVertexInFace(Face face);
   void InsertVertexOnEdge(Edge edge);
+  void InsertVertexOnEdgeTriangular(Edge edge);
   void InsertEdgeInFace(Halfedge he1, Halfedge he2);
+  bool Flip(const Edge &edge);
+
+  void DeleteFace(Face face);
+  void ContractEdgeTriangular(Edge e);
+
+  void Compress();
 
   std::size_t GetNumberHalfedges() const;
   std::size_t GetNumberVertices() const;
@@ -63,8 +73,6 @@ public:
   std::size_t GetFacesSize() const;
   std::size_t GetEdgesSize() const;
 
-  bool Flip(const Edge &edge);
-
 protected:
   void Allocate(std::span<const FaceIndices> faces);
 
@@ -72,6 +80,12 @@ protected:
   void BuildExplicit(std::span<const FaceIndices> faces);
 
   void GetBoundaryLoops();
+
+  // COMPRESS HELPERS
+  void CompressVertices();
+  void CompressFaces();
+  void CompressEdges();
+  void CompressHalfedges();
 
   // IMPLICIT GEOMETRY
   static IndexType GetTwinIndexImplicit(IndexType he_index);
@@ -84,12 +98,15 @@ protected:
   Vertex CreateVertex(IndexType he_index = INVALID_INDEX);
   Face CreateFace(IndexType he_index = INVALID_INDEX);
 
+  bool IsVertexValid(IndexType vertex_index) const;
+  bool IsFaceValid(IndexType vertex_index) const;
+
   // FOR GEOMETRY ELEMENTS
   halfedge_t get_halfedge(IndexType index) const;
   IndexType get_face(IndexType index) const;
   IndexType get_edge(IndexType index) const;
   IndexType get_twin(IndexType index) const;
-  IndexType vertex(IndexType index) const;
+  IndexType get_vertex(IndexType index) const;
 
   IndexType get_next_outgoing_neighbor(IndexType index) const;
   IndexType get_next_incoming_neighbor(IndexType index) const;

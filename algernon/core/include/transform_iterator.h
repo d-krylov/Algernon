@@ -6,7 +6,8 @@
 
 namespace Algernon {
 
-template <typename Base, typename Getter> class TransformIterator {
+template <typename Base, typename Getter>
+class TransformIterator {
 public:
   using iterator_category = std::random_access_iterator_tag;
   using value_type = std::invoke_result_t<Getter, const Base &, IndexType>;
@@ -86,7 +87,8 @@ private:
   Getter getter_;
 };
 
-template <typename Base, typename Getter> class BaseElements {
+template <typename Base, typename Getter>
+class BaseElements {
 public:
   BaseElements(const Base *base, Getter getter, IndexType size) : base_(base), getter_(getter), size_(size) {
   }

@@ -3,7 +3,8 @@
 
 namespace Algernon {
 
-template <typename WALKER> class GeometryIterator {
+template <typename WALKER>
+class GeometryIterator {
 public:
   using return_type = typename WALKER::return_type;
   using element_type = typename WALKER::element_type;

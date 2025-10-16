@@ -1,6 +1,7 @@
 #include "algernon/geometry/include/geometry.h"
 #include "algernon/geometry/include/geometry_element_walkers.h"
 #include "algernon/mesh/include/face_indices.h"
+#include <print>
 
 namespace Algernon {
 
@@ -10,11 +11,25 @@ bool Geometry::UsesImplicitTwin() const {
 
 // IMPLICIT GEOMETRY
 
-// clang-format off
-IndexType Geometry::GetTwinIndexImplicit(IndexType he_index) { return he_index ^ 1; }
-IndexType Geometry::GetEdgeIndexImplicit(IndexType he_index) { return he_index / 2; }
-IndexType Geometry::GetHalfedgeIndexImplicit(IndexType edge_index) { return edge_index * 2; }
-// clang-format on
+IndexType Geometry::GetTwinIndexImplicit(IndexType he_index) {
+  return he_index ^ 1;
+}
+
+IndexType Geometry::GetEdgeIndexImplicit(IndexType he_index) {
+  return he_index / 2;
+}
+
+IndexType Geometry::GetHalfedgeIndexImplicit(IndexType edge_index) {
+  return edge_index * 2;
+}
+
+bool Geometry::IsVertexValid(IndexType vertex_index) const {
+  return get_vertex(vertex_index) != INVALID_INDEX;
+}
+
+bool Geometry::IsFaceValid(IndexType face_index) const {
+  return get_face(face_index) != INVALID_INDEX;
+}
 
 // FOR GEOMETRY ELEMENTS
 
@@ -42,7 +57,7 @@ IndexType Geometry::get_next_incoming_neighbor(IndexType index) const {
   return get_twin(get_halfedge(index).next_);
 }
 
-IndexType Geometry::vertex(IndexType index) const {
+IndexType Geometry::get_vertex(IndexType index) const {
   return vertices_[index];
 }
 
@@ -119,6 +134,20 @@ std::size_t Geometry::GetNumberEdges() const {
   return UsesImplicitTwin() ? GetHalfedgesSize() / 2 : GetEdgesSize();
 }
 
+Edge Geometry::FindEdge(Vertex start, Vertex end) const {
+  for (const auto &edge : start.GetAdjacentEdges()) {
+    if (edge.GetTargetVertex() == end) {
+      return edge;
+    }
+  }
+  for (const auto &edge : end.GetAdjacentEdges()) {
+    if (edge.GetTargetVertex() == start) {
+      return edge;
+    }
+  }
+  return Edge(this, INVALID_INDEX);
+}
+
 // clang-format off
 std::size_t Geometry::GetHalfedgesSize() const { return halfedges_.size(); }
 std::size_t Geometry::GetVerticesSize() const { return vertices_.size(); }
@@ -137,8 +166,9 @@ Geometry::Geometry(std::span<const FaceIndices> faces, bool is_implicit) : uses_
 std::vector<FaceIndices> Geometry::GetFaceIndices() const {
   std::vector<FaceIndices> out;
   for (const auto &face : GetFaces()) {
+    std::println("f: {}", face.GetIndex());
     std::vector<IndexType> vertices;
-    for (const auto &vertex : face.GetAdjacentVerices()) {
+    for (const auto &vertex : face.GetAdjacentVertices()) {
       vertices.emplace_back(vertex.GetIndex());
     }
     out.emplace_back(vertices);

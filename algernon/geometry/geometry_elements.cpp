@@ -4,7 +4,13 @@
 
 namespace Algernon {
 
+// GEOMETRY ELEMENT
+
 IndexType GeometryElement::GetIndex() const {
+  return index_;
+}
+
+GeometryElement::operator IndexType() const {
   return index_;
 }
 
@@ -28,10 +34,17 @@ Vertex::Vertex(const Geometry *geometry, IndexType index) : GeometryElement(geom
 }
 
 Halfedge Vertex::GetHalfedge() const {
-  return Halfedge(GetGeometry(), GetGeometry()->vertex(GetIndex()));
+  return Halfedge(GetGeometry(), GetGeometry()->get_vertex(GetIndex()));
 }
 
-std::size_t Vertex::GetDegree() const {
+bool Vertex::IsValid() const {
+  return geometry_->IsVertexValid(GetIndex());
+}
+
+bool Vertex::IsBoundary() const {
+}
+
+std::size_t Vertex::GetEdgeDegree() const {
   std::size_t ret = 0;
   for (const auto &edge : GetAdjacentEdges()) {
     ret++;
@@ -71,6 +84,9 @@ Vertex Edge::GetTargetVertex() const {
   return GetHalfedge().GetTargetVertex();
 }
 
+bool Edge::IsBoundary() const {
+}
+
 Halfedge Edge::GetHalfedge() const {
   return Halfedge(GetGeometry(), GetGeometry()->get_edge(GetIndex()));
 }
@@ -85,7 +101,7 @@ Face::Face(const Geometry *geometry, IndexType index) : GeometryElement(geometry
 
 std::size_t Face::GetDegree() const {
   std::size_t ret = 0;
-  for (const auto &vertex : GetAdjacentVerices()) {
+  for (const auto &vertex : GetAdjacentVertices()) {
     ret++;
   }
   return ret;
@@ -95,7 +111,14 @@ Halfedge Face::GetHalfedge() const {
   return Halfedge(GetGeometry(), GetGeometry()->get_face(GetIndex()));
 }
 
-GeometryIterator<FaceAdjacentVerticesWalker> Face::GetAdjacentVerices() const {
+bool Face::IsBoundary() const {
+}
+
+bool Face::IsValid() const {
+  return geometry_->IsFaceValid(GetIndex());
+}
+
+GeometryIterator<FaceAdjacentVerticesWalker> Face::GetAdjacentVertices() const {
   return GeometryIterator<FaceAdjacentVerticesWalker>(GetHalfedge());
 }
 
@@ -159,6 +182,9 @@ Edge Halfedge::GetEdge() const {
 
 Face Halfedge::GetFace() const {
   return Face(GetGeometry(), GetGeometry()->get_halfedge(GetIndex()).face_);
+}
+
+bool Halfedge::IsBoundary() const {
 }
 
 } // namespace Algernon

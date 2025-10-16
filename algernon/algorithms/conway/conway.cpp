@@ -39,10 +39,10 @@ Polyhedron OperatorDUAL(const Polyhedron &polyhedron) {
   return Polyhedron(out_vertices, out_faces);
 }
 
-Polyhedron OperatorExpand(const Polyhedron &polyhedron, float alpha) {
+Polyhedron OperatorEXPAND(const Polyhedron &polyhedron, float alpha) {
 }
 
-void OperatorAMBO(const Polyhedron &polyhedron) {
+void OperatorTRUNCATE(const Polyhedron &polyhedron) {
 }
 
 } // namespace Algernon

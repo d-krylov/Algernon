@@ -37,7 +37,8 @@ inline std::size_t hash_mix(std::size_t v) {
   }
 }
 
-template <class T> inline void hash_combine(std::size_t &seed, const T &v) {
+template <class T>
+inline void hash_combine(std::size_t &seed, const T &v) {
   seed = hash_mix(seed + 0x9e3779b9 + std::hash<T>()(v));
 }
 
